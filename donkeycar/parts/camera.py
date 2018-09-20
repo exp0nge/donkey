@@ -3,7 +3,6 @@ import time
 import numpy as np
 from PIL import Image, ImageDraw
 import glob
-import opencv 
 
 class BaseCamera:
 
