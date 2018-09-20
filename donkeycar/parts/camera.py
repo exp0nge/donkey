@@ -62,7 +62,9 @@ class PiCamera(BaseCamera):
     def shutdown(self):
         # indicate that the thread should be stopped
         self.on = False
-        print('stoping PiCamera')
+        del self.walabot
+
+        print('stoping PiCamera + walabot')
         time.sleep(.5)
         self.stream.close()
         self.rawCapture.close()
@@ -118,8 +120,7 @@ class Webcam(BaseCamera):
     def shutdown(self):
         # indicate that the thread should be stopped
         self.on = False
-        del self.walabot
-        print('stoping Webcam + walabot')
+        print('stoping Webcam')
         time.sleep(.5)
 
 class MockCamera(BaseCamera):
