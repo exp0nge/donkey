@@ -44,6 +44,7 @@ def drive(cfg, model_path=None, use_joystick=False, use_chaos=False):
     V.add(clock, outputs='timestamp')
 
     cam = PiCamera(resolution=cfg.CAMERA_RESOLUTION)
+    
     V.add(cam, outputs=['cam/image_array'], threaded=True)
 
     if use_joystick or cfg.USE_JOYSTICK_AS_DEFAULT:

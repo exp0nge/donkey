@@ -13,6 +13,8 @@ class PiCamera(BaseCamera):
     def __init__(self, resolution=(120, 160), framerate=20):
         from picamera.array import PiRGBArray
         from picamera import PiCamera
+        from donkeycar.parts.walabot import WalabotDistance
+
         resolution = (resolution[1], resolution[0])
         # initialize the camera and stream
         self.camera = PiCamera() #PiCamera gets resolution (height, width)
@@ -26,10 +28,17 @@ class PiCamera(BaseCamera):
         # if the thread should be stopped
         self.frame = None
         self.on = True
-
+        self.walabot = WalabotDistance()
+        self.walabot.connect()
         print('PiCamera loaded.. .warming camera')
         time.sleep(2)
 
+        if self.walabot.isConnected:
+            print("Walabot successfully connected!")
+        else:
+            raise IOError("Walabot is not connected!")
+
+        self.walabot.start()
 
     def run(self):
         f = next(self.stream)
@@ -39,6 +48,7 @@ class PiCamera(BaseCamera):
 
     def update(self):
         # keep looping infinitely until the thread is stopped
+        print("walabot distance -->", self.walabot.distance_to_target(self.walabot.get_targets()))
         for f in self.stream:
             # grab the frame from the stream and clear the stream in
             # preparation for the next frame
