@@ -50,12 +50,14 @@ class PiCamera(BaseCamera):
 
     def update(self):
         # keep looping infinitely until the thread is stopped
-        print("walabot distance -->", self.walabot.distance_to_target(self.walabot.get_targets()))
         for f in self.stream:
             # grab the frame from the stream and clear the stream in
             # preparation for the next frame
             self.frame = f.array
             self.rawCapture.truncate(0)
+
+            print("walabot distance -->", self.walabot.distance_to_target(self.walabot.get_targets()))
+
 
             # if the thread indicator variable is set, stop the thread
             if not self.on:
