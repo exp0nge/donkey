@@ -118,7 +118,8 @@ class Webcam(BaseCamera):
     def shutdown(self):
         # indicate that the thread should be stopped
         self.on = False
-        print('stoping Webcam')
+        del self.walabot
+        print('stoping Webcam + walabot')
         time.sleep(.5)
 
 class MockCamera(BaseCamera):
