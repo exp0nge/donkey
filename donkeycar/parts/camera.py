@@ -48,8 +48,7 @@ class PiCamera(BaseCamera):
         self.rawCapture.truncate(0)
         return frame
     
-    def draw_target(self, img, sz):
-        im = Image.open(img); 
+    def draw_target(self, im, sz):
         draw = ImageDraw.Draw(im); 
         draw.ellipse([(im.size[0]/4, im.size[1]/4), (im.size[0]/2+sz,im.size[1]/4+sz)], fill=128); 
         return np.array(im)
