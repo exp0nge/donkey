@@ -1,8 +1,9 @@
 import os
 import time
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 import glob
+import opencv 
 
 class BaseCamera:
 
@@ -47,6 +48,12 @@ class PiCamera(BaseCamera):
         frame = f.array
         self.rawCapture.truncate(0)
         return frame
+    
+    def draw_target(self, img, sz):
+        im = Image.open(img); 
+        draw = ImageDraw.Draw(im); 
+        draw.ellipse([(im.size[0]/4, im.size[1]/4), (im.size[0]/2+sz,im.size[1]/4+sz)], fill=128); 
+        return np.array(im)
 
     def update(self):
         # keep looping infinitely until the thread is stopped
@@ -55,9 +62,11 @@ class PiCamera(BaseCamera):
             # preparation for the next frame
             self.frame = f.array
             self.rawCapture.truncate(0)
-
-            print("walabot distance -->", self.walabot.distance_to_target(self.walabot.get_targets()))
-
+            
+            dist_to_object = self.walabot.distance_to_target(self.walabot.get_targets())
+            print("walabot distance -->", dist_to_object)
+            if (dist_to_object):
+                self.frame = self.draw_target(Image.fromarray(f.array), dist_to_object/3)
 
             # if the thread indicator variable is set, stop the thread
             if not self.on:
