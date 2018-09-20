@@ -27,7 +27,16 @@ class PiCamera(BaseCamera):
         self.frame = None
         self.on = True
 
-        print('PiCamera loaded.. .warming camera')
+        self.walabot = WalabotDistance()
+        self.walabot.connect()
+
+        print('PiCamera loaded.. .warming camera + walabot')
+        if self.walabot.isConnected:
+            print("Walabot successfully connected!")
+        else:
+            raise IOError("Walabot is not connected!")
+        self.walabot.start()
+
         time.sleep(2)
 
 
